@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     // rotas abertas
                     auth.requestMatchers("/candidate").permitAll()
+                            .requestMatchers("/auth/candidate").permitAll()
                             .requestMatchers("/auth/company").permitAll()
                             .requestMatchers("/company").permitAll()
                             .anyRequest().authenticated();

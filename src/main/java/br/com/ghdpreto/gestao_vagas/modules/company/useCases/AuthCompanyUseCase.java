@@ -2,6 +2,7 @@ package br.com.ghdpreto.gestao_vagas.modules.company.useCases;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -15,6 +16,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.ghdpreto.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import br.com.ghdpreto.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import br.com.ghdpreto.gestao_vagas.modules.company.repositories.CompanyRepository;
 
 @Service
@@ -29,7 +31,7 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // validar se company existe
         var company = this.companyRepository.findByUsername(authCompanyDTO.username())
                 .orElseThrow(() -> {
@@ -45,13 +47,19 @@ public class AuthCompanyUseCase {
 
         // se correta gerar token
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        return JWT.create().withIssuer("javagas")
+
+        var expiresIn = Instant.now().plus(Duration.ofHours(2));
+
+        var token = JWT.create().withIssuer("javagas")
                 // expira em 2 horas
-                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                .withExpiresAt(expiresIn)
+                // roles
+                .withClaim("roles", Arrays.asList("COMPANY"))
                 // add o id da company
                 .withSubject(company.getId().toString())
                 // assina com o algoritimo gerado
                 .sign(algorithm);
 
+        return new AuthCompanyResponseDTO(token, expiresIn.toEpochMilli());
     }
 }

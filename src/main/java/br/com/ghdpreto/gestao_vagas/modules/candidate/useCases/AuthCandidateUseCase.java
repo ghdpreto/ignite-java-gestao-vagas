@@ -56,7 +56,7 @@ public class AuthCandidateUseCase {
                 // add o id do candidate
                 .withSubject(candidate.getId().toString())
                 // add regras de acesso
-                .withClaim("roles", Arrays.asList("candidate"))
+                .withClaim("roles", Arrays.asList("CANDIDATE"))
                 // assina com o algoritimo
                 .sign(algorithm);
 

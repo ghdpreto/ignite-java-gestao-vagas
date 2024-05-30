@@ -13,6 +13,6 @@ public interface JobRepository extends JpaRepository<JobEntity, UUID> {
 
     // "contains - LIKE do sql"
     // SELCT * FROM JOB WHERE DESCRIPTION LIKE(filter);
-    List<JobEntity> findByDescriptionContaining(String filter);
+    List<JobEntity> findByDescriptionContainingIgnoreCase(String filter);
 
 }

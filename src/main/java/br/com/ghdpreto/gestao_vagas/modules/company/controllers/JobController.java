@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("company")
+@Tag(name = "Empresa")
 public class JobController {
 
     @Autowired
@@ -31,8 +32,6 @@ public class JobController {
 
     @PostMapping("job")
     @PreAuthorize("hasRole('COMPANY')")
-
-    @Tag(name = "Vagas", description = "Informações das vagas")
     @Operation(summary = "Cadastro de vaga", description = "Essa função é responsável por cadastrar as vagas dentro da empresa")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = JobEntity.class))

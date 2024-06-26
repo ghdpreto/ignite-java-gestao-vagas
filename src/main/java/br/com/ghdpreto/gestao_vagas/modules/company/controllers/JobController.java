@@ -3,6 +3,7 @@ package br.com.ghdpreto.gestao_vagas.modules.company.controllers;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,17 +38,23 @@ public class JobController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = JobEntity.class))
             }) })
     @SecurityRequirement(name = "jwt_auth")
-    public JobEntity create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
 
         var comapanyId = request.getAttribute("company_id");
 
-        JobEntity jobEntity = JobEntity.builder()
-                .companyId(UUID.fromString(comapanyId.toString()))
-                .benefits(createJobDTO.getBenefits())
-                .description(createJobDTO.getDescription())
-                .level(createJobDTO.getLevel())
-                .build();
+        try {
+            JobEntity jobEntity = JobEntity.builder()
+                    .companyId(UUID.fromString(comapanyId.toString()))
+                    .benefits(createJobDTO.getBenefits())
+                    .description(createJobDTO.getDescription())
+                    .level(createJobDTO.getLevel())
+                    .build();
 
-        return this.createJobUseCase.execute(jobEntity);
+            var result = this.createJobUseCase.execute(jobEntity);
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }

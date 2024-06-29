@@ -1,24 +1,19 @@
 package br.com.ghdpreto.gestao_vagas.modules.candidate.useCases;
 
-import org.hibernate.engine.jdbc.env.spi.IdentifierCaseStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.autoconfigure.batch.JobExecutionEvent;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.swing.text.html.Option;
 
 import br.com.ghdpreto.gestao_vagas.exceptions.JobNotFoundException;
 import br.com.ghdpreto.gestao_vagas.exceptions.UserNotFoundException;

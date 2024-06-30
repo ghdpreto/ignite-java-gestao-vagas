@@ -3,9 +3,9 @@ package br.com.ghdpreto.gestao_vagas.modules.candidate.useCases;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.ghdpreto.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.ghdpreto.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.ghdpreto.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 
@@ -18,7 +18,7 @@ public class ProfileCandidateUseCase {
     public ProfileCandidateResponseDTO execute(UUID id) {
 
         var candidate = this.candidateRepository.findById(id).orElseThrow(() -> {
-            throw new UsernameNotFoundException("Usuário não encontrado");
+            throw new UserNotFoundException();
         });
 
         return new ProfileCandidateResponseDTO(

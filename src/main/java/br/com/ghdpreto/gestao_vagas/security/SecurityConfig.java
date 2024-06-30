@@ -21,10 +21,11 @@ public class SecurityConfig {
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
 
-    private static final String[] SWAGGER_LIST = {
+    private static final String[] PERMIT_ALL_LIST = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/swagger-resources/**"
+            "/swagger-resources/**",
+            "/actuator/**"
     };
 
     // informa para usar esse objeto ao inves de usar o nativo do spring
@@ -46,7 +47,7 @@ public class SecurityConfig {
                             .requestMatchers("/company/auth").permitAll()
 
                             // swagger
-                            .requestMatchers(SWAGGER_LIST).permitAll()
+                            .requestMatchers(PERMIT_ALL_LIST).permitAll()
 
                             // bloqueio
                             .anyRequest().authenticated();

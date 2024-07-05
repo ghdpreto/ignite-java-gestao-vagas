@@ -21,7 +21,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8080
 
 # copia do from para o app.jar
-COPY --from=build /target/gestao_vagas-0.0.1.jar app.jar
+COPY --from=build /target/gestao_vagas-0.0.1-SNAPSHOT.jar app.jar
 
 # o que vai executar apos a copia
 ENTRYPOINT [ "java", "-jar", "app.jar" ]

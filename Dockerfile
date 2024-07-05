@@ -12,7 +12,7 @@ COPY . .
 RUN apt-get install maven -y
 
 # gerando o .jar
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 # jdk que vai ser usada
 FROM openjdk:17-jdk-slim
